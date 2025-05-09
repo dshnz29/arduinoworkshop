@@ -22,6 +22,13 @@ app.get('/health', (req, res) => {
 // Routes
 app.use('/api/register', registerRoute);
 
+app.get('/', (req, res) => {
+  res.send({
+    activeStatus: true,
+    error: false,
+  })
+} );
+
 // Error handling
 app.use((err, req, res, next) => {
   console.error('Server error:', err);
