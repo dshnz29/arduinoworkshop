@@ -8,7 +8,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: '*',
+  origin: 'https://arduinoworkshop-4o78.vercel.app',
   credentials: true
 }));
 app.use(express.json());
