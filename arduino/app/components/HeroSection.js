@@ -84,9 +84,11 @@ const HeroSection = () => {
         <p className="text-xl md:text-2xl mb-8 max-w-2xl text-gray-200">
           {slides[currentSlide].subtitle}
         </p>
+        <a href='#register'>
         <button className="px-8 py-3 bg-gradient-to-r from-green-400 to-green-600 text-white rounded-full font-bold text-lg hover:from-green-500 hover:to-green-700 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/50 transform hover:scale-105">
           Register Now
         </button>
+        </a>
       </div>
 
       {/* Navigation buttons */}
