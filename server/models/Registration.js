@@ -1,13 +1,23 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-const registrationSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true },
-  phone: { type: String, required: true },
-  institute: { type: String, required: true },
-  experienceLevel: { type: String, enum: ['beginner', 'intermediate', 'advanced'], default: 'beginner' },
-}, { timestamps: true });
+const Registration = sequelize.define('Registration', {
+  name: { type: DataTypes.STRING, allowNull: false },
+  email: { type: DataTypes.STRING, allowNull: false },
+  phone: { type: DataTypes.STRING, allowNull: false },
+  institute: { type: DataTypes.STRING, allowNull: false },
+  experienceLevel: {
+    type: DataTypes.ENUM('beginner', 'intermediate', 'advanced'),
+    defaultValue: 'beginner',
+  },
+}, {
+  timestamps: true,
+  indexes: [
+    {
+      unique: true,
+      fields: ['email', 'phone', 'institute']
+    }
+  ]
+});
 
-registrationSchema.index({ email: 1, phone: 1, institute: 1 }, { unique: true });
-
-module.exports = mongoose.model('Registration', registrationSchema);
+module.exports = Registration;

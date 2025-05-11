@@ -1,8 +1,9 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
+const sequelize = require('./config/database');
 const registerRoute = require('./routes/register');
+const Registration = require('./models/Registration'); // Ensure model is loaded
 
 const app = express();
 
@@ -28,21 +29,20 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Internal server error' });
 });
 
-// MongoDB connection
-const connectDB = async () => {
+// Sync DB and start server
+const start = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('MongoDB connected');
-    
+    await sequelize.authenticate();
+    console.log('MySQL connected');
+
+    await sequelize.sync(); // Creates tables if not exist
+
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   } catch (err) {
-    console.error('MongoDB connection error:', err);
+    console.error('MySQL connection error:', err);
     process.exit(1);
   }
 };
 
-connectDB();
+start();
