@@ -2,8 +2,8 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'My Website',
-  description: 'Generated with Next.js App Router',
+  title: 'Arduino Workshop',
+  description: 'Join us for an exciting Arduino workshop!',
 };
 
 export default function RootLayout({ children }) {
