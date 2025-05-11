@@ -19,7 +19,7 @@ export default function Home() {
       <HighlightsSection />
       <QuizSection />
       <RegistrationSection />
-      <TeamSection />
+      {/* <TeamSection /> */}
       <FAQSection />
       <ContactSection />
       <Footer />
