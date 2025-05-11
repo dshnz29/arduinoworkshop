@@ -38,7 +38,7 @@ const RegistrationSection = ({ onRegistrationComplete }) => {
     }
   
     try {
-      const res = await fetch('arduinoworkshop-i14h.vercel.app/api/register', { // replace with your API URL directly
+      const res = await fetch('http://152.42.195.215/api/register', { // replace with your API URL directly
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
