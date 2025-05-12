@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { UserIcon, MailIcon, PhoneIcon, BuildingIcon, BrainIcon } from 'lucide-react';
-import emailjs from 'emailjs-com'; // add at the top
+import emailjs from 'emailjs-com';
 
 const RegistrationSection = ({ onRegistrationComplete }) => {
   const [formData, setFormData] = useState({
@@ -12,6 +12,7 @@ const RegistrationSection = ({ onRegistrationComplete }) => {
     institute: '',
     experienceLevel: 'beginner'
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -30,30 +31,18 @@ const RegistrationSection = ({ onRegistrationComplete }) => {
     setIsSubmitting(true);
     setErrorMessage('');
     setSuccessMessage('');
-  
+
     if (!formData.name || !formData.email || !formData.phone || !formData.institute) {
       setErrorMessage('Please fill in all required fields');
       setIsSubmitting(false);
       return;
     }
-  
+
     try {
-      const res = await fetch('/api/register', { // replace with your API URL directly
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      console.log('Response status:', res.status); // Add this
-      const data = await res.json();
-      console.log('Response data:', data); // Add this
-      if (!res.ok) {
-        throw new Error(data.message || 'Registration failed');
-      }
-  
-      // EmailJS send
+      // Direct EmailJS Send
       await emailjs.send(
-        'service_a3kkjls', // replace with your EmailJS Service ID
-        'template_7w777f3', // replace with your EmailJS Template ID
+        'service_a3kkjls', // Replace with your EmailJS Service ID
+        'template_7w777f3', // Replace with your EmailJS Template ID
         {
           user_name: formData.name,
           user_email: formData.email,
@@ -61,11 +50,11 @@ const RegistrationSection = ({ onRegistrationComplete }) => {
           user_institute: formData.institute,
           user_experience: formData.experienceLevel,
         },
-        'OZLrbOS3fqEP5ZRzy' // replace with your EmailJS Public Key (User ID)
+        'OZLrbOS3fqEP5ZRzy' // Replace with your EmailJS Public Key (User ID)
       );
-  
-      // UI success
-      setSuccessMessage('Registration successful!');
+
+      // Show success
+      setSuccessMessage('Registration email sent successfully!');
       setShowConfetti(true);
       onRegistrationComplete?.(formData);
       setFormData({
@@ -75,15 +64,14 @@ const RegistrationSection = ({ onRegistrationComplete }) => {
         institute: '',
         experienceLevel: 'beginner'
       });
-  
+
       setTimeout(() => {
         setShowConfetti(false);
         setSuccessMessage('');
       }, 5000);
-  
     } catch (error) {
-      console.error('Registration or email error:', error);
-      setErrorMessage(error.message || 'An error occurred during registration. Please try again later.');
+      console.error('Email sending error:', error);
+      setErrorMessage('An error occurred while sending the email. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -179,29 +167,28 @@ const RegistrationSection = ({ onRegistrationComplete }) => {
                 <option value="advanced">Advanced - Experienced with Arduino</option>
               </select>
             </div>
-            
+
             {errorMessage && (
-              <div className="text-red-500 text-center mb-4">
-                {errorMessage}
-              </div>
+              <div className="text-red-500 text-center mb-4">{errorMessage}</div>
             )}
-            
+
             {successMessage && (
-              <div className="text-green-500 text-center mb-4">
-                {successMessage}
-              </div>
+              <div className="text-green-500 text-center mb-4">{successMessage}</div>
             )}
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full py-3 rounded-md font-semibold transition-all duration-300 ${isSubmitting ? 'bg-gray-600 cursor-not-allowed' : 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white hover:shadow-lg hover:shadow-orange-500/50'}`}
+              className={`w-full py-3 rounded-md font-semibold transition-all duration-300 ${isSubmitting
+                  ? 'bg-gray-600 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white hover:shadow-lg hover:shadow-orange-500/50'
+                }`}
             >
-              {isSubmitting ? 'Processing...' : 'Register'}
+              {isSubmitting ? 'Sending...' : 'Register'}
             </button>
           </form>
         </div>
-        
+
         {showConfetti && (
           <div className="fixed inset-0 z-50 pointer-events-none">
             {[...Array(100)].map((_, i) => (
