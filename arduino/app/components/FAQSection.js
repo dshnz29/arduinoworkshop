@@ -32,11 +32,7 @@ const FAQSection = () => {
       answer:
         "Projects will be judged based on creativity, technical implementation, presentation, and practical application. Our panel of judges will evaluate each team's final project, and prizes will be awarded in several categories including 'Most Innovative' and 'Best Technical Execution'.",
     },
-    {
-      question: 'Will there be food provided?',
-      answer:
-        "Yes! We provide lunch, snacks, and beverages throughout the day to keep your energy up while you're creating amazing Arduino projects.",
-    },
+    
   ];
 
   const toggleFAQ = (index) => {
